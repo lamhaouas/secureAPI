@@ -10,5 +10,10 @@
   "license": "ISC",
   "devDependencies": {
     "run-script-os": "^1.1.6"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.12",
+    "mongoose-unique-validator": "^3.0.0"
   }
 }
