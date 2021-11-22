@@ -1,4 +1,5 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const app = express();
@@ -21,8 +22,9 @@ mongoose.connect(process.env.DB_CONNECT, {
     console.log('not connected to MongoDB');
     console.error(error);
 })
-//Middleware
 
+// parse application/json
+app.use(bodyParser.json())
 app.use(express.json());
 // Route Middlewares
 

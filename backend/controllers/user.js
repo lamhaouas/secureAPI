@@ -10,7 +10,7 @@ const {
 } = require('../routes/validation');
 
 //signup function
-exports.signup = async (req, res, next) => {
+exports.signup = async (req, res) => {
     //signup validation 
     const {
         error
@@ -31,11 +31,35 @@ exports.signup = async (req, res, next) => {
     });
     try {
         const savedUser = await user.save();
-        res.send(savedUser)
+        res.send(
+            savedUser
+        )
     } catch (err) {
         res.status(400).send(err)
     }
 };
-exports.login = (req, res, next) => {
-
+//login function
+exports.login = async (req, res) => {
+    //login validation 
+    const {
+        error
+    } = loginValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    // check if the user exist
+    const user = await User.findOne({
+        email: req.body.email
+    });
+    if (!user) return res.status(400).send('User not found!');
+    //check the password
+    const validPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!validPassword) return res.status(400).send('Wrong password');
+    //create and assign a token
+    const token = jwt.sign({
+        _id: user._id
+    }, process.env.TOKEN_SECRET);
+    // return userId string and token string
+    res.send({
+        userId: user._id,
+        token: token,
+    });
 }
