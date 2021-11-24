@@ -22,13 +22,34 @@ mongoose.connect(process.env.DB_CONNECT, {
     console.log('not connected to MongoDB');
     console.error(error);
 })
-
+// Import the sauce model
+const Sauce = require('./models/sauce');
 // parse application/json
 app.use(bodyParser.json())
 app.use(express.json());
 // Route Middlewares
 
 app.use('/api/auth', userRoutes);
-
+app.post('/api/sauces', (req, res, next) => {
+    const sauce = new Sauce({
+        name: req.body.name,
+        manufacturer: req.body.manufacturer,
+        description: req.body.description,
+        mainPepper: req.body.mainPepper,
+        //imageUrl:,
+        heat: req.body.heat,
+        likes: 0,
+        dislikes: 0,
+        usersLiked: [],
+        usersDislikde: []
+    });
+    sauce.save().then(
+        () => {
+            res.status(201).json({
+                Message: 'posted'
+            })
+        }
+    )
+})
 
 module.exports = app;
