@@ -1,4 +1,6 @@
 const Sauce = require('../models/Sauce');
+// access the file system 
+const fs = require('fs')
 // submit a sauce
 exports.submitSauce = (req, res, ) => {
     // convert req string to JSON obj
@@ -22,4 +24,12 @@ exports.submitSauce = (req, res, ) => {
     sauce.save().then()
 
 };
+// Get all sauces
+exports.getAllSauces = (req, res) => {
+    Sauce.find().then(data => res.status(200).json(data))
+        .catch(error => res.status(400).json({
+            error
+        }));
+}
+
 // Delete a sauce
