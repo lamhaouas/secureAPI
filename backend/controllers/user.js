@@ -23,11 +23,11 @@ exports.signup = async (req, res) => {
     if (emailExist) return res.status(400).send('Email already used');
     //hash passwords
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
-
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    // save user to db
     const user = new User({
         email: req.body.email,
-        password: hashedPassword
+        password: hashPassword
     });
     try {
         const savedUser = await user.save();
@@ -61,5 +61,5 @@ exports.login = async (req, res) => {
     res.send({
         userId: user._id,
         token: token,
-    });
+    }).header('auth-token', token);
 }
