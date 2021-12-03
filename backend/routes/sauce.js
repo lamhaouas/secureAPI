@@ -5,8 +5,9 @@ const verifyToken = require('../verifyToken');
 const multer = require('../multer-config')
 
 router.post('/', verifyToken, multer, sauceCtrl.submitSauce);
-router.get('/', sauceCtrl.getAllSauces);
-router.delete('/:id', sauceCtrl.deleteSauce);
-router.get('/:id', sauceCtrl.getOneSauce);
+router.get('/', verifyToken, sauceCtrl.getAllSauces);
+router.delete('/:id', verifyToken, sauceCtrl.deleteSauce);
+router.get('/:id', verifyToken, sauceCtrl.getOneSauce);
+router.put('/:id', verifyToken, sauceCtrl.updateSauce);
 
 module.exports = router;

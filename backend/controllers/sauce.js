@@ -5,17 +5,17 @@ const fs = require('fs')
 // submit a sauce
 exports.submitSauce = async (req, res, ) => {
     // convert req string to JSON obj
-    req.body.sauce = JSON.parse(req.body.sauce);
+    const reqSauce = JSON.parse(req.body.sauce);
     // the full image path
     const url = req.protocol + '://' + req.get('host');
     const sauce = new Sauce({
-        userId: req.body.sauce.userId,
-        name: req.body.sauce.name,
-        manufacturer: req.body.sauce.manufacturer,
-        description: req.body.sauce.description,
-        mainPepper: req.body.sauce.mainPepper,
+        userId: reqSauce.userId,
+        name: reqSauce.name,
+        manufacturer: reqSauce.manufacturer,
+        description: reqSauce.description,
+        mainPepper: reqSauce.mainPepper,
         imageUrl: url + '/images/' + req.file.filename,
-        heat: req.body.sauce.heat,
+        heat: reqSauce.heat,
         likes: 0,
         dislikes: 0,
         usersLiked: [],
@@ -75,4 +75,52 @@ exports.deleteSauce = async (req, res) => {
     } catch {
         res.status(200).json('error')
     };
+};
+// Update a sauce
+exports.updateSauce = async (req, res) => {
+    let sauce = new Sauce({
+        _id: req.params.id
+    });
+
+    // Update sauce with a new image file
+    if (req.file) {
+        const url = req.protocol + '://' + req.get('host');
+        const reqSauce = JSON.parse(req.body.sauce);
+        hotSauce = {
+            _id: req.params.id,
+            userID: reqSauce.userID,
+            name: reqSauce.name,
+            manufacturer: reqSauce.manufacturer,
+            description: reqSauce.description,
+            mainPepper: reqSauce.mainPepper,
+            imageUrl: url + '/images/' + req.file.filename,
+            heat: reqSauce.heat,
+            likes: 0,
+            dislikes: 0,
+            usersLiked: [],
+            usersDislikde: []
+        }
+    } else {
+        hotSauce = {
+            _id: req.params.id,
+            name: req.body.name,
+            manufacturer: req.body.manufacturer,
+            description: req.body.description,
+            mainPepper: req.body.mainPepper,
+            imageUrl: req.body.imageUrl,
+            heat: req.body.heat,
+        };
+    };
+    try {
+        await Sauce.updateOne({
+            _id: req.params.id
+        }, hotSauce);
+        res.status(201).json({
+            message: 'Sauce updated'
+        });
+    } catch (err) {
+        res.status(400).json({
+            message: err
+        });
+    }
 }

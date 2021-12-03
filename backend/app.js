@@ -19,7 +19,7 @@ app.use(cors());
 mongoose.connect(process.env.DB_CONNECT, {
     useNewUrlParser: true
 }).then(() => {
-    console.log('Connected to MondoDB')
+    console.log('Connected to MongoDB')
 
 }).catch((error) => {
     console.log('not connected to MongoDB');

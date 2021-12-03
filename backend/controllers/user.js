@@ -61,5 +61,5 @@ exports.login = async (req, res) => {
     res.send({
         userId: user._id,
         token: token,
-    }).header('auth-token', token);
+    })
 }
