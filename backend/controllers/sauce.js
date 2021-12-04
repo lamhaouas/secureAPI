@@ -82,11 +82,10 @@ exports.updateSauce = async (req, res) => {
         _id: req.params.id
     });
 
-    // Update sauce with a new image file
     if (req.file) {
         const url = req.protocol + '://' + req.get('host');
         const reqSauce = JSON.parse(req.body.sauce);
-        hotSauce = {
+        sauce = {
             _id: req.params.id,
             userID: reqSauce.userID,
             name: reqSauce.name,
@@ -101,7 +100,7 @@ exports.updateSauce = async (req, res) => {
             usersDislikde: []
         }
     } else {
-        hotSauce = {
+        sauce = {
             _id: req.params.id,
             name: req.body.name,
             manufacturer: req.body.manufacturer,
@@ -109,18 +108,17 @@ exports.updateSauce = async (req, res) => {
             mainPepper: req.body.mainPepper,
             imageUrl: req.body.imageUrl,
             heat: req.body.heat,
+
         };
     };
     try {
         await Sauce.updateOne({
             _id: req.params.id
-        }, hotSauce);
-        res.status(201).json({
+        }, sauce);
+        await res.status(201).json({
             message: 'Sauce updated'
         });
-    } catch (err) {
-        res.status(400).json({
-            message: err
-        });
+    } catch {
+        res.status(400).json('error')
     }
 }

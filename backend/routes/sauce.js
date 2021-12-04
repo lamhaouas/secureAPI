@@ -8,6 +8,6 @@ router.post('/', verifyToken, multer, sauceCtrl.submitSauce);
 router.get('/', verifyToken, sauceCtrl.getAllSauces);
 router.delete('/:id', verifyToken, sauceCtrl.deleteSauce);
 router.get('/:id', verifyToken, sauceCtrl.getOneSauce);
-router.put('/:id', verifyToken, sauceCtrl.updateSauce);
+router.put('/:id', multer, sauceCtrl.updateSauce);
 
 module.exports = router;
