@@ -8,7 +8,8 @@
 
 ## Back-end 
 
- The back-end is developed using node.js, express.js and mongo DB. 
+ * The back-end is developed using node.js, express.js.
+ *  The database is hosted on Mondo DB Atlas.
 
 ## Security
 
