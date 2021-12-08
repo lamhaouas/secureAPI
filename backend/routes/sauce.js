@@ -8,6 +8,7 @@ router.post('/', verifyToken, multer, sauceCtrl.submitSauce);
 router.get('/', verifyToken, sauceCtrl.getAllSauces);
 router.delete('/:id', verifyToken, sauceCtrl.deleteSauce);
 router.get('/:id', verifyToken, sauceCtrl.getOneSauce);
-router.put('/:id', multer, sauceCtrl.updateSauce);
+router.put('/:id', verifyToken, multer, sauceCtrl.updateSauce);
+router.post('/:id/like', verifyToken, sauceCtrl.rateSauce);
 
 module.exports = router;

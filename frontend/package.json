@@ -13,7 +13,8 @@
   "dependencies": {
     "concurrently": "^6.4.0",
     "http-server": "^14.0.0",
-    "live-server": "^1.1.0"
+    "live-server": "^1.1.0",
+    "nodemon": "^2.0.15"
   },
   "devDependencies": {
     "run-script-os": "^1.1.6"

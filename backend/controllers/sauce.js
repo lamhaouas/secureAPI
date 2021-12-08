@@ -87,7 +87,7 @@ exports.updateSauce = async (req, res) => {
         const reqSauce = JSON.parse(req.body.sauce);
         sauce = {
             _id: req.params.id,
-            userID: reqSauce.userID,
+            userId: reqSauce.userId,
             name: reqSauce.name,
             manufacturer: reqSauce.manufacturer,
             description: reqSauce.description,
@@ -120,5 +120,48 @@ exports.updateSauce = async (req, res) => {
         });
     } catch {
         res.status(400).json('error')
+    }
+}
+// Like/Dislike sauce
+exports.rateSauce = async (req, res) => {
+
+
+    try {
+        // get one sauce
+        const sauce = await Sauce.findOne({
+            _id: req.params.id
+        });
+
+        // like the sauce
+        if (req.body.like == 1) {
+            sauce.usersLiked.push(req.body.userId);
+            sauce.likes += 1;
+        }
+        // unlike the sauce 
+        else if (req.body.like == 0 && sauce.usersLiked.includes(req.body.userId)) {
+            sauce.usersLiked.remove(req.body.userId);
+            sauce.likes -= 1;
+        }
+        // dislike the sauce
+        else if (req.body.like == -1) {
+            sauce.usersDisliked.push(req.body.userId);
+            sauce.dislikes += 1
+        }
+        // undislike the sauce
+        else if (req.body.like == 0 && sauce.usersDisliked.includes(req.body.userId)) {
+            sauce.usersDisliked.remove(req.body.userId);
+            sauce.dislikes -= 1
+        }
+
+        // save to db & res with success status
+        sauce.save();
+        res.status(201).json({
+            message: "sauce like saved"
+        })
+
+    } catch (err) {
+        res.status(404).json({
+            message: "error"
+        });
     }
 }
