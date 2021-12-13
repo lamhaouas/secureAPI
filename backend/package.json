@@ -8,6 +8,9 @@
   },
   "author": "Si mohamed Lamhaouas",
   "license": "ISC",
+  "engines": {
+    "node": "16.13.0"
+  },
   "devDependencies": {
     "run-script-os": "^1.1.6"
   },
