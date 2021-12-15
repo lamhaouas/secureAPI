@@ -16,11 +16,7 @@ exports.signup = async (req, res) => {
         error
     } = signupValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    // email already in db
-    const emailExist = await User.findOne({
-        email: req.body.email
-    });
-    if (emailExist) return res.status(400).send('Email already used');
+
     //hash passwords
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(req.body.password, salt);
