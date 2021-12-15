@@ -23,7 +23,7 @@ exports.submitSauce = async (req, res, ) => {
     });
 
     try {
-        const savedSauce = await sauce.save();
+        await sauce.save();
         res.json('Sauce saved')
     } catch {
         res.status(400).json({
@@ -37,7 +37,7 @@ exports.getAllSauces = async (req, res) => {
         const allSauces = await Sauce.find();
         res.status(200).json(allSauces)
     } catch {
-        res.status(200).json({
+        res.status(404).json({
             message: err
         })
     }
@@ -48,7 +48,6 @@ exports.getOneSauce = async (req, res) => {
         const findOneSauce = await Sauce.findOne({
             _id: req.params.id
         });
-        const filename = await findOneSauce.imageUrl.split("/images/");
         res.status(200).json(findOneSauce)
     } catch {
         res.status(404).json({
@@ -73,7 +72,7 @@ exports.deleteSauce = async (req, res) => {
             res.status(200).json('Sauce deleted');
         })
     } catch {
-        res.status(200).json('error')
+        res.status(403).json('error')
     };
 };
 // Update a sauce
@@ -119,7 +118,7 @@ exports.updateSauce = async (req, res) => {
             message: 'Sauce updated'
         });
     } catch {
-        res.status(400).json('error')
+        res.status(403).json('error')
     }
 }
 // Like/Dislike sauce
